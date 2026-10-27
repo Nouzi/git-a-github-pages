@@ -185,8 +185,35 @@ svg {
   border-radius: 12px;
 }
 
+.btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Na užších obrazovkách len ikona, aby sa hlavička nepretekala. */
+.btn--icon {
+  padding: 0 10px;
+}
+
+.btn-label,
+.brand-tail {
+  display: none;
+}
+
 .only-wide {
   display: none;
+}
+
+@media (min-width: 430px) {
+  .brand-tail {
+    display: inline;
+  }
 }
 
 @media (min-width: 640px) {
@@ -195,6 +222,15 @@ svg {
   }
   .only-narrow {
     display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .btn-label {
+    display: inline;
+  }
+  .btn--icon {
+    padding: 0 16px;
   }
 }
 

@@ -13,6 +13,8 @@ Všetko zo slajdov na jednom mieste, doplnené o to, čo k nim hovorím naživo.
 
 ### 👉 [nouzi.github.io/git-a-github-pages](https://nouzi.github.io/git-a-github-pages/)
 
+[📥 **Stiahnuť prezentáciu (PDF, 39 slajdov, 8 MB)**](https://nouzi.github.io/git-a-github-pages/git-a-github-od-zakladov.pdf)
+
 </div>
 
 ---
@@ -37,6 +39,7 @@ Praktický úvod do Gitu a GitHubu pre úplných začiatočníkov. Každú vec n
 
 ## Čo stránka vie
 
+- 📥 **Stiahnutie prezentácie** – originálne slajdy v PDF priamo z hornej lišty
 - 🧭 **Mapa kapitol** – bočný panel na desktope, vysúvacia ponuka na mobile, zvýrazňuje aktuálnu časť
 - 📋 **Kopírovanie príkazov jedným klikom** – komentáre sa nekopírujú, takže príkazy fungujú aj v zsh na Macu
 - 🧠 **Kvíz** s priebežným skóre
@@ -57,10 +60,11 @@ a otvor [http://localhost:8000](http://localhost:8000).
 
 ```
 .
-├── index.html   # obsah stránky
-├── styles.css   # vzhľad
-├── script.js    # mapa kapitol, kopírovanie príkazov a kvíz
-└── .nojekyll    # GitHub Pages servíruje súbory tak, ako sú
+├── index.html                    # obsah stránky
+├── styles.css                    # vzhľad
+├── script.js                     # mapa kapitol, kopírovanie príkazov a kvíz
+├── git-a-github-od-zakladov.pdf  # prezentácia na stiahnutie
+└── .nojekyll                     # GitHub Pages servíruje súbory tak, ako sú
 ```
 
 ## Nasadenie
