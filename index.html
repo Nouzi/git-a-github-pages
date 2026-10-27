@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Git a GitHub od základov</title>
+<meta name="description" content="Webová verzia prezentácie o Gite a GitHube: commit, vetvy, merge, konflikty, push, pull, pull requesty, stash a práca cez AI agentov. Vo VS Code aj v termináli.">
+<meta property="og:title" content="Git a GitHub od základov">
+<meta property="og:description" content="Všetko zo slajdov plus to, čo k nim hovorím naživo. Vo VS Code aj v termináli, na záver cez AI agentov.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0a0a09">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400..600&family=Kalam:wght@400;700&family=Source+Serif+4:ital,opsz,wght@1,8..60,400..500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner gutter">
+    <a class="brand" href="#top" aria-label="Git a GitHub od základov, na začiatok">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="8" r="2.2"/><path d="M6 7.2v9.6M18 10.2c0 4-6 3-11.4 7"/></svg>
+      <span>Git a GitHub od základov</span>
+    </a>
+    <nav class="top-actions" aria-label="Rýchle odkazy">
+      <a class="btn only-wide" href="#kviz">Kvíz</a>
+      <a class="btn btn--accent" href="#kurz"><span class="only-wide">Kurz o AI agentoch</span><span class="only-narrow">Kurz o AI</span></a>
+    </nav>
+  </div>
+</header>
+
+<div class="layout gutter" id="top">
+
+  <aside class="sidebar">
+    <nav aria-label="Kapitoly" id="chapter-map">
+      <ol class="map">
+        <li>
+          <a href="#git"><span class="node"></span><span class="num">01</span><span>Git a prvý commit</span></a>
+          <ul class="sub">
+            <li><a href="#problem">Poznáš toto?</a></li>
+            <li><a href="#co-je-git">Git je fotoalbum</a></li>
+            <li><a href="#git-vs-github">Git nie je GitHub</a></li>
+            <li><a href="#tri-miesta">Tri miesta zmeny</a></li>
+            <li><a href="#repozitar">Založ repozitár</a></li>
+            <li><a href="#commit">Commit</a></li>
+            <li><a href="#historia">História</a></li>
+            <li><a href="#spravy">Dobrá commit správa</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#vetvy"><span class="node"></span><span class="num">02</span><span>Vetvy a merge</span></a>
+          <ul class="sub">
+            <li><a href="#vetva">Čo je vetva</a></li>
+            <li><a href="#nova-vetva">Vytvor a prepni vetvu</a></li>
+            <li><a href="#merge">Čo je merge</a></li>
+            <li><a href="#ako-mergovat">Zmerguj do mainu</a></li>
+            <li><a href="#konflikt">Konflikt</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#github"><span class="node"></span><span class="num">03</span><span>GitHub a pull requesty</span></a>
+          <ul class="sub">
+            <li><a href="#remote">Počítač, GitHub, kolegovia</a></li>
+            <li><a href="#zaciatok">Ako začať s GitHubom</a></li>
+            <li><a href="#push-pull">Push a pull</a></li>
+            <li><a href="#pull-request">Čo je pull request</a></li>
+            <li><a href="#ako-pr">Otvor pull request</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#stash"><span class="node"></span><span class="num">04</span><span>Stash a záchrana</span></a>
+          <ul class="sub">
+            <li><a href="#stash-co">Šuplík na rozrobenú prácu</a></li>
+            <li><a href="#stash-ako">Ako na stash</a></li>
+            <li><a href="#zachrana">Keď sa niečo pokazí</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#zhrnutie"><span class="node"></span><span class="num">05</span><span>Zhrnutie</span></a>
+          <ul class="sub">
+            <li><a href="#postup">Celý postup</a></li>
+            <li><a href="#tahak">Ťahák</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#ai-agenti"><span class="node"></span><span class="num">06</span><span>AI agenti</span></a>
+          <ul class="sub">
+            <li><a href="#tri-sposoby">Tri spôsoby, ten istý Git</a></li>
+            <li><a href="#rozhovor-1">Rozhovor 1: vetva a commit</a></li>
+            <li><a href="#rozhovor-2">Rozhovor 2: push a PR</a></li>
+            <li><a href="#rozhovor-3">Rozhovor 3: oprava a stash</a></li>
+            <li><a href="#rozhovor-4">Rozhovor 4: konflikt</a></li>
+            <li><a href="#pravidla">Štyri pravidlá</a></li>
+            <li><a href="#kedy-co">Kedy čo použiť</a></li>
+            <li><a href="#domaca-uloha">Domáca úloha</a></li>
+          </ul>
+        </li>
+      </ol>
+      <ol class="map map--extra">
+        <li><a href="#kviz"><span class="node"></span><span class="num"></span><span>Otestuj sa</span></a></li>
+        <li><a href="#kurz"><span class="node"></span><span class="num"></span><span>Kurz o AI agentoch</span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <p class="eyebrow">Webová verzia prezentácie</p>
+    <h1>Git a GitHub od základov</h1>
+    <p class="lead">Všetko zo slajdov na jednom mieste, doplnené o to, čo k nim hovorím naživo. Šesť častí: každú vec najprv ukážem vo VS Code, hneď pod tým príkazom v termináli, a na konci to celé zopakujeme cez AI agentov.</p>
+
+    <div class="byline">
+      <div class="who-block">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <div>
+          <p class="who-name">Tomáš Kanko</p>
+          <p class="who-role">Backend vývojár, študent aplikovanej informatiky</p>
+        </div>
+      </div>
+      <a class="btn" href="#kviz">Rovno na kvíz</a>
+    </div>
+
+    <div class="say intro-note">
+      <span class="avatar" aria-hidden="true">TK</span>
+      <p>Takto vyzerá to, čo by som povedal naživo. Na slajdy sa to nezmestilo, ale často je to tá najužitočnejšia časť.</p>
+    </div>
+
+    <!-- ======================= 01 GIT A PRVÝ COMMIT ======================= -->
+    <section class="chapter" id="git" data-chapter="01" data-title="Git a prvý commit">
+      <p class="chapter-num">01 / 06</p>
+      <h2>Git a prvý commit</h2>
+      <p class="part-lead">Čo Git vlastne robí a ako uložiť prvú verziu projektu.</p>
+
+      <h3 id="problem">Poznáš toto?</h3>
+      <p>Takto vyzerá verzovanie bez Gitu: kopírovanie. Každá „finálna“ verzia dostane nový súbor a po týždni už nikto nevie, ktorá je tá správna.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 290" role="img" aria-label="Vľavo šesť kópií projektu s názvami ako projekt_final_NAOZAJ.zip, vpravo jeden priečinok web so štyrmi commitmi v histórii.">
+            <text x="24" y="36" class="t">Bez Gitu</text>
+            <path class="ln" d="M24 64h8l4 4v12H24z"/><text x="46" y="78" class="fn">projekt.zip</text>
+            <path class="ln" d="M24 100h8l4 4v12H24z"/><text x="46" y="114" class="fn">projekt_final.zip</text>
+            <path class="ln" d="M24 136h8l4 4v12H24z"/><text x="46" y="150" class="fn">projekt_final_2.zip</text>
+            <path class="ln" d="M24 172h8l4 4v12H24z"/><text x="46" y="186" class="fn">projekt_final_NAOZAJ.zip</text>
+            <path class="ln" d="M24 208h8l4 4v12H24z"/><text x="46" y="222" class="fn">projekt_final_NAOZAJ_oprava.zip</text>
+            <path class="ln" d="M24 244h8l4 4v12H24z"/><text x="46" y="258" class="fn t-acc">projekt_final_NAOZAJ_v3 (1).zip</text>
+
+            <line class="dash" x1="308" y1="16" x2="308" y2="274"/>
+
+            <text x="332" y="36" class="t">S Gitom</text>
+            <path class="ln" d="M332 62h10l4 4h14v14h-28z"/><text x="370" y="78">web/</text>
+            <line class="br-main" x1="346" y1="112" x2="346" y2="256"/>
+            <circle class="c-main" cx="346" cy="112" r="8"/><text x="368" y="118">Pridaj kontaktný formulár</text>
+            <circle class="c-main" cx="346" cy="160" r="8"/><text x="368" y="166">Oprav chybu v menu</text>
+            <circle class="c-main" cx="346" cy="208" r="8"/><text x="368" y="214">Pridaj menu</text>
+            <circle class="c-main" cx="346" cy="256" r="8"/><text x="368" y="262">Prvá verzia webu</text>
+          </svg>
+        </div>
+        <figcaption>Bez Gitu si históriu robíš kopírovaním súborov. S Gitom máš jeden priečinok a celú jeho históriu, najnovší commit hore.</figcaption>
+      </figure>
+
+      <p>Ktorá verzia je tá správna? Čo sa medzi nimi zmenilo? Kto mi prepísal môj kód? Presne tento chaos Git rieši.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Skoro každý má niekde priečinok plný zipov s menami ako final_NAOZAJ. Z neho nezistíš, čo sa zmenilo, kto to zmenil, ani ktorá verzia je posledná. Ak máš doma podobný priečinok, nie si sám.</p>
+      </div>
+
+      <h3 id="co-je-git">Git je fotoalbum tvojho projektu</h3>
+      <p><strong>Git</strong> je systém na správu verzií. Namiesto kopírovania zipov si robíš snímky projektu. Takej snímke sa hovorí <strong>commit</strong>.</p>
+      <ul>
+        <li><strong>Snímka je commit.</strong> Uloží stav všetkých súborov aj s popisom: kto, kedy a prečo.</li>
+        <li><strong>Funguje lokálne.</strong> Celá história je na tvojom počítači v skrytom priečinku <code>.git</code>, aj bez internetu.</li>
+        <li><strong>Návrat kedykoľvek.</strong> Vieš sa pozrieť na ľubovoľnú starú verziu alebo ju obnoviť.</li>
+      </ul>
+      <p>Priečinku, ktorý Git sleduje, hovoríme <strong>repozitár</strong>, skrátene repo. Každý commit má jedinečný kód, takzvaný <strong>hash</strong>, napríklad <code>a3f9c21</code>.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Prečo Git? Aby si sa nebál nič pokaziť. Každý commit je bod, ku ktorému sa vieš vrátiť. Bez neho experimentuješ so strachom, s ním pokojne.</p>
+      </div>
+
+      <h3 id="git-vs-github">Git nie je GitHub</h3>
+      <p><strong>Git</strong> je program na tvojom počítači. Sleduje zmeny v súboroch, funguje aj bez internetu a ovládaš ho príkazmi alebo v editore.</p>
+      <p><strong>GitHub</strong> je webová služba. Uchováva kópiu repozitára online, umožňuje zdieľanie a spoluprácu v tíme a pridáva pull requesty, review a issues. Podobne fungujú GitLab a Bitbucket.</p>
+      <p class="analogy">Git je fotoaparát. GitHub je online album, kam fotky nahráš a ukážeš ich ostatným.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Toto je asi najčastejšia zámena na začiatku. Git funguje úplne sám, aj keď GitHub nikdy nepoužiješ. GitHub je len miesto, kam si repozitár odložíš online a kde s ním pracuje celý tím. Ak by zajtra zmizol, tvoja história ostane celá na tvojom disku.</p>
+      </div>
+
+      <h3 id="tri-miesta">Každá zmena prejde tromi miestami</h3>
+      <p>Kým zmenu uložíš do histórie, prejde tromi miestami.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 184" role="img" aria-label="Pracovný priečinok, šípka git add, staging, šípka git commit, repozitár.">
+            <rect class="box" x="20" y="34" width="132" height="96" rx="12"/>
+            <text x="86" y="76" text-anchor="middle">Pracovný</text>
+            <text x="86" y="100" text-anchor="middle">priečinok</text>
+
+            <line class="ln" x1="160" y1="82" x2="236" y2="82"/>
+            <polygon class="head" points="246,82 234,75 234,89"/>
+            <text x="203" y="66" text-anchor="middle" class="cmd">git add</text>
+            <text x="203" y="112" text-anchor="middle" class="s">klik „+“</text>
+
+            <rect class="box" x="254" y="34" width="132" height="96" rx="12"/>
+            <text x="320" y="89" text-anchor="middle">Staging</text>
+
+            <line class="ln" x1="394" y1="82" x2="470" y2="82"/>
+            <polygon class="head" points="480,82 468,75 468,89"/>
+            <text x="437" y="66" text-anchor="middle" class="cmd">git commit</text>
+            <text x="437" y="112" text-anchor="middle" class="s">klik Commit</text>
+
+            <rect class="box" x="488" y="34" width="132" height="96" rx="12"/>
+            <text x="554" y="89" text-anchor="middle">Repozitár</text>
+
+            <text x="86" y="166" text-anchor="middle" class="s">veci na stole</text>
+            <text x="320" y="166" text-anchor="middle" class="s">veci v krabici</text>
+            <text x="554" y="166" text-anchor="middle" class="s">zalepená krabica</text>
+          </svg>
+        </div>
+        <figcaption>Nad šípkami je príkaz, pod nimi to isté vo VS Code.</figcaption>
+      </figure>
+
+      <p><strong>Pracovný priečinok</strong> sú súbory, ktoré práve upravuješ, ako veci rozložené na stole. <strong>Staging</strong> sú zmeny vybrané na uloženie, ako veci vložené do krabice. <strong>Repozitár</strong> sú uložené snímky, teda commity, ako zalepená krabica so štítkom.</p>
+      <p>Staging ti dovolí uložiť len časť zmien, napríklad dva súbory z piatich, a zvyšok nechať na neskôr.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Toto je najdôležitejší obrázok celej prezentácie. Upravuješ súbory na stole, vyberieš, čo chceš uložiť, a potom to zapečatíš commitom do histórie. Keď pochopíš tieto tri miesta, zvyšok Gitu do seba zapadne.</p>
+      </div>
+
+      <h3 id="repozitar">Začíname: založ repozitár</h3>
+      <p>Repozitár je obyčajný priečinok, v ktorom Git sleduje zmeny. Vo VS Code na to stačí jedno tlačidlo, v termináli jeden príkaz.</p>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Otvor priečinok projektu cez <span class="ui">File</span> → <span class="ui">Open Folder…</span></span></li>
+            <li><span>Otvor <span class="ui">Source Control</span> ikonou vľavo alebo cez <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd> (na Macu <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd>).</span></li>
+            <li><span>Klikni na <span class="ui">Initialize Repository</span>. Priečinok je odteraz repozitár.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code><span class="c"># raz na počítači: kto si</span>
+git config --global user.name "Ján Novák"
+git config --global user.email jan@mail.sk
+<span class="c"># hlavná vetva sa bude volať main</span>
+git config --global init.defaultBranch main
+<span class="c"># git pull pri rozdielnej histórii spraví merge</span>
+git config --global pull.rebase false
+<span class="c"># správy commitov sa otvoria vo VS Code, nie vo Vime</span>
+git config --global core.editor "code --wait"
+
+<span class="c"># v priečinku projektu</span>
+cd moj-web
+git init
+git status</code></pre>
+          <p class="pane-note"><code>git config</code> nastavíš len raz. Meno a e-mail sa zapíšu ku každému tvojmu commitu, ďalšie tri riadky ti ušetria prekvapenia neskôr. Na Macu musí byť príkaz <code>code</code> dostupný v termináli: vo VS Code spusti <span class="ui">Shell Command: Install 'code' command in PATH</span>.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Pred prvým commitom treba Gitu povedať, kto si, a na to je <code>git config</code>. A <code>git status</code> si zapamätaj ako prvý príkaz vôbec: keď nevieš, čo sa deje, spusti ho.</p>
+      </div>
+
+      <h3 id="commit">Commit: ulož snímku projektu</h3>
+      <p>Commit je uložená verzia projektu so správou, ktorá hovorí, čo sa zmenilo.</p>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Zmenené súbory uvidíš v <span class="ui">Source Control</span> v sekcii <span class="ui">Changes</span>. <span class="ui">U</span> znamená nový súbor, <span class="ui">M</span> zmenený.</span></li>
+            <li><span>Pri súbore klikni na <span class="ui">+</span> (Stage Changes). Presunie sa do <span class="ui">Staged Changes</span>.</span></li>
+            <li><span>Do políčka napíš krátku správu, čo si urobil, napríklad <code>Pridaj kontaktný formulár</code>.</span></li>
+            <li><span>Klikni na <span class="ui">Commit</span>, alebo stlač <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (na Macu <kbd>⌘</kbd>+<kbd>Enter</kbd>).</span></li>
+          </ol>
+          <p class="pane-note">Ak nič nevyberieš a klikneš na Commit, VS Code sa opýta, či má uložiť všetky zmeny.</p>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code><span class="c"># ukáže zmenené a nové súbory</span>
+git status
+<span class="c"># alebo všetko naraz: git add .</span>
+git add contact.html style.css
+git commit -m "Pridaj kontaktný formulár"</code></pre>
+          <p class="pane-note"><code>-m</code> znamená message, teda krátka správa, ktorá ku commitu patrí.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Commituj často. Malý commit sa dá ľahko pochopiť aj vrátiť. Commit so štyridsiatimi súbormi a správou „zmeny“ nevráti nikto.</p>
+      </div>
+
+      <h3 id="historia">Pozri sa do histórie</h3>
+      <p>História sa číta zhora nadol: najnovší commit je hore. Pri každom vidíš správu, autora a čas.</p>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>V <span class="ui">Source Control</span> rozbaľ sekciu <span class="ui">Graph</span>.</span></li>
+            <li><span>Klikni na commit a uvidíš, čo sa v ňom zmenilo.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>git log --oneline
+<span class="c"># a3f9c21 Pridaj kontaktný formulár</span>
+<span class="c"># 7b2e410 Oprav chybu v menu</span>
+<span class="c"># 5d01c7e Pridaj menu</span>
+<span class="c"># 1c8d903 Prvá verzia webu</span>
+
+<span class="c"># ukáže presne, čo sa v commite zmenilo</span>
+git show a3f9c21</code></pre>
+          <p class="pane-note">Každý commit má jedinečný hash. Na odkazovanie naň stačí prvých 7 znakov.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Hash je ako rodné číslo commitu. Nikto si ho nepamätá celý, ale keď sa potrebuješ na commit odvolať, prvých sedem znakov stačí.</p>
+      </div>
+
+      <h3 id="spravy">Dobrá správa ušetrí čas celému tímu</h3>
+      <p>Commit správu čítaš o pol roka, keď hľadáš, kde sa niečo pokazilo. Preto ju píš tak, aby povedala, čo commit urobí.</p>
+
+      <div class="table-wrap table--compact">
+        <table>
+          <thead>
+            <tr><th scope="col">Takto nie</th><th scope="col">Takto áno</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>fix</code></td><td><code>Oprav pád formulára pri prázdnom e-maile</code></td></tr>
+            <tr><td><code>zmeny</code></td><td><code>Pridaj validáciu kontaktného formulára</code></td></tr>
+            <tr><td><code>asdfgh</code></td><td><code>Zmeň farbu tlačidiel podľa nového dizajnu</code></td></tr>
+            <tr><td><code>piatok večer 2</code></td><td><code>Odstráň nepoužívané CSS štýly</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul>
+        <li><strong>Píš, čo commit urobí.</strong> Začni slovesom: Pridaj…, Oprav…, Odstráň…, Zmeň…</li>
+        <li><strong>Jeden commit, jedna zmena.</strong> Malé commity sa ľahšie čítajú, kontrolujú aj vracajú.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Jednoduché pravidlo: správa je pokyn, čo commit urobí, napríklad „Pridaj validáciu formulára“. A ak v nej potrebuješ slovo „a“, väčšinou to mali byť dva commity.</p>
+      </div>
+    </section>
+
+    <!-- ======================= 02 VETVY A MERGE ======================= -->
+    <section class="chapter" id="vetvy" data-chapter="02" data-title="Vetvy a merge">
+      <p class="chapter-num">02 / 06</p>
+      <h2>Vetvy a merge</h2>
+      <p class="part-lead">Paralelná práca a jej spájanie.</p>
+
+      <h3 id="vetva">Vetva: bezpečné miesto na experimenty</h3>
+      <p><strong>Vetva</strong> (branch) je samostatná línia commitov. Hlavná vetva sa volá <code>main</code> a je v nej stabilná verzia, tá, ktorú vidia používatelia.</p>
+      <p>Keď robíš niečo nové, odbočíš na vlastnú vetvu, napríklad <code>feature/login</code>. Je to tvoja dielňa: čo tu rozbiješ, main neovplyvní. Každá úloha má vlastnú vetvu, takže ich môže byť viac naraz: <code>feature/…</code> na nové veci, <code>fix/…</code> na opravy.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 224" role="img" aria-label="Modrá línia main s commitmi Prvá verzia, Pridané menu a Oprava od kolegu. Z commitu Pridané menu odbočuje zelená vetva feature/login s commitmi Formulár, Validácia a Štýly.">
+            <line class="br-main" x1="30" y1="170" x2="610" y2="170"/>
+            <path class="br-feat" d="M190 170C232 170 244 80 290 80L510 80"/>
+            <circle class="c-main" cx="70" cy="170" r="10"/>
+            <circle class="c-main" cx="190" cy="170" r="10"/>
+            <circle class="c-main" cx="420" cy="170" r="10"/>
+            <circle class="c-feat" cx="290" cy="80" r="10"/>
+            <circle class="c-feat" cx="400" cy="80" r="10"/>
+            <circle class="c-feat" cx="510" cy="80" r="10"/>
+            <text x="24" y="148" class="t-main">main</text>
+            <text x="306" y="128" class="t-feat">feature/login</text>
+            <text x="290" y="50" text-anchor="middle" class="s">Formulár</text>
+            <text x="400" y="50" text-anchor="middle" class="s">Validácia</text>
+            <text x="510" y="50" text-anchor="middle" class="s">Štýly</text>
+            <text x="70" y="206" text-anchor="middle" class="s">Prvá verzia</text>
+            <text x="190" y="206" text-anchor="middle" class="s">Pridané menu</text>
+            <text x="420" y="206" text-anchor="middle" class="s">Oprava od kolegu</text>
+          </svg>
+        </div>
+        <figcaption>Kým robíš login na svojej vetve, kolega opravil chybu priamo v maine. Navzájom sa neovplyvňujete, kým to nezlúčite.</figcaption>
+      </figure>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Na maine priamo nerob. Main je to, čo funguje. Všetko nové patrí na vlastnú vetvu a do mainu to ide až vtedy, keď je to hotové. Vetva je zadarmo, tak sa nimi nešetri.</p>
+      </div>
+
+      <h3 id="nova-vetva">Vytvor vetvu a prepínaj sa medzi nimi</h3>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Klikni na názov vetvy vľavo dole v stavovom riadku, napríklad <span class="ui">main</span>.</span></li>
+            <li><span>Vyber <span class="ui">+ Create new branch…</span></span></li>
+            <li><span>Zadaj názov, napríklad <code>feature/login</code>. VS Code ťa na novú vetvu rovno prepne.</span></li>
+            <li><span>Späť na main sa dostaneš rovnako: klik na názov vetvy a vyber <span class="ui">main</span>.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code><span class="c"># zoznam vetiev, aktuálna má hviezdičku</span>
+git branch
+<span class="c"># vytvor vetvu a prepni sa na ňu</span>
+git switch -c feature/login
+<span class="c"># späť na main</span>
+git switch main</code></pre>
+          <p class="pane-note"><code>-c</code> znamená create: vytvor vetvu a rovno sa na ňu prepni. V starších návodoch nájdeš <code>git checkout -b</code>, robí to isté.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Hviezdička v <code>git branch</code> ukazuje, na ktorej vetve práve si. Vo VS Code to vidíš stále vľavo dole. Zvykni si tam pozrieť skôr, ako začneš písať kód.</p>
+      </div>
+
+      <h3 id="merge">Merge spojí prácu z vetvy späť do mainu</h3>
+      <p>Keď je práca na vetve hotová, chceš ju dostať do mainu. Tomu sa hovorí <strong>merge</strong>, po slovensky zlúčenie.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 224" role="img" aria-label="Zelená vetva feature/login sa po troch commitoch vracia do modrej línie main v oranžovom merge commite.">
+            <line class="br-main" x1="30" y1="170" x2="610" y2="170"/>
+            <path class="br-feat" d="M168 170C208 170 214 80 250 80L430 80C496 80 512 170 560 170"/>
+            <circle class="c-main" cx="56" cy="170" r="10"/>
+            <circle class="c-main" cx="168" cy="170" r="10"/>
+            <circle class="c-main" cx="380" cy="170" r="10"/>
+            <circle class="c-feat" cx="250" cy="80" r="10"/>
+            <circle class="c-feat" cx="340" cy="80" r="10"/>
+            <circle class="c-feat" cx="430" cy="80" r="10"/>
+            <circle class="c-merge" cx="560" cy="170" r="12"/>
+            <text x="24" y="148" class="t-main">main</text>
+            <text x="268" y="128" class="t-feat">feature/login</text>
+            <text x="250" y="50" text-anchor="middle" class="s">Formulár</text>
+            <text x="340" y="50" text-anchor="middle" class="s">Validácia</text>
+            <text x="430" y="50" text-anchor="middle" class="s">Štýly</text>
+            <text x="56" y="206" text-anchor="middle" class="s">Prvá verzia</text>
+            <text x="168" y="206" text-anchor="middle" class="s">Pridané menu</text>
+            <text x="380" y="206" text-anchor="middle" class="s">Oprava od kolegu</text>
+            <text x="560" y="206" text-anchor="middle" class="t-acc">merge commit</text>
+          </svg>
+        </div>
+        <figcaption>Oranžový bod je merge commit. Má dvoch rodičov: posledný commit mainu a posledný commit tvojej vetvy.</figcaption>
+      </figure>
+
+      <p>Ak sa obe vetvy medzitým zmenili, Git vytvorí <strong>merge commit</strong> s dvoma rodičmi. Výsledok: main obsahuje formulár aj opravu od kolegu.</p>
+      <p>Ak sa main medzitým nehýbal, Git ho len posunie dopredu na tvoj posledný commit. Tomu sa hovorí <strong>fast-forward</strong>. Po merge môžeš vetvu zmazať, práca ostáva v maine.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Merge sa netreba báť. Ak niečo nesedí, Git ti to povie skôr, ako čokoľvek pokazí. A aj keď sa ti výsledok nepáči, je to len ďalší commit v histórii, ku ktorému sa vieš vrátiť.</p>
+      </div>
+
+      <h3 id="ako-mergovat">Zmerguj vetvu do mainu</h3>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Prepni sa na <span class="ui">main</span> kliknutím na názov vetvy.</span></li>
+            <li><span>V <span class="ui">Source Control</span> klikni na <span class="ui">···</span> (Viac akcií) → <span class="ui">Branch</span> → <span class="ui">Merge…</span></span></li>
+            <li><span>Vyber vetvu <code>feature/login</code>.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>git switch main
+git merge feature/login
+<span class="c"># po merge vetvu uprac</span>
+git branch -d feature/login
+<span class="c"># história ako graf</span>
+git log --oneline --graph</code></pre>
+        </div>
+      </div>
+
+      <p class="note"><b>Pozor:</b> merguješ vždy <strong>do</strong> vetvy, na ktorej práve stojíš.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Najčastejšia chyba začiatočníkov: zabudnú sa prepnúť na main a mergujú opačným smerom. Najprv sa prepni na cieľovú vetvu, až potom merguj tú, ktorú chceš pridať.</p>
+      </div>
+
+      <h3 id="konflikt">Konflikt: dve zmeny v tom istom riadku</h3>
+      <p>Väčšinou Git zlúči zmeny sám. Konflikt vznikne, keď dve vetvy zmenia <strong>ten istý riadok</strong> inak. Git nevie, ktorá verzia je správna, tak ich v súbore <code>index.html</code> označí značkami:</p>
+
+<pre class="code"><code><span class="k-mark">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span>
+<span class="k-ours">&lt;h1&gt;Vitajte na našom webe&lt;/h1&gt;</span>
+<span class="k-mark">=======</span>
+<span class="k-theirs">&lt;h1&gt;Ahoj, vitaj u nás!&lt;/h1&gt;</span>
+<span class="k-mark">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/uvod</span></code></pre>
+
+      <p>Hore, pod <code>HEAD</code>, je to, čo je na tvojej vetve. Dole, až po <code>feature/uvod</code>, je to, čo prichádza. Vyberieš jednu verziu, obe, alebo to prepíšeš ručne, a značky zmažeš.</p>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Súbor s konfliktom nájdeš v <span class="ui">Source Control</span> pod <span class="ui">Merge Changes</span>.</span></li>
+            <li><span>Nad konfliktom klikni na <span class="ui">Accept Current Change</span>, <span class="ui">Accept Incoming Change</span> alebo <span class="ui">Accept Both Changes</span>. Pri zložitejšom konflikte pomôže <span class="ui">Resolve in Merge Editor</span>.</span></li>
+            <li><span>Ulož súbor, klikni na <span class="ui">+</span> a potom na <span class="ui">Continue</span>. Tým sa merge dokončí.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>git merge feature/uvod
+<span class="c"># CONFLICT (content): Merge conflict in index.html</span>
+<span class="c"># uprav súbor a zmaž značky, potom:</span>
+git add index.html
+git commit --no-edit
+<span class="c"># alebo všetko zruš a vráť sa pred merge:</span>
+<span class="c"># git merge --abort</span></code></pre>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Konflikt nie je chyba. Git sa len pýta: ktorú verziu chceš? Najčastejší omyl je kliknúť na Accept Both bez čítania a potom mať v kóde obe verzie pod sebou. Vždy si pozri, čo vlastne ostalo.</p>
+      </div>
+    </section>
+
+    <!-- ======================= 03 GITHUB A PULL REQUESTY ======================= -->
+    <section class="chapter" id="github" data-chapter="03" data-title="GitHub a pull requesty">
+      <p class="chapter-num">03 / 06</p>
+      <h2>GitHub a pull requesty</h2>
+      <p class="part-lead">Push, pull a spolupráca cez pull requesty.</p>
+
+      <h3 id="remote">Tvoj počítač, GitHub a kolegovia</h3>
+      <p>Každý má na svojom počítači celú kópiu repozitára. GitHub je spoločné miesto uprostred. Kópii na GitHube sa hovorí <strong>remote</strong> a štandardne sa volá <code>origin</code>.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 266" role="img" aria-label="Hore GitHub ako remote origin, dole tvoj počítač a počítač kolegu. Medzi každým počítačom a GitHubom šípky push hore a pull dole.">
+            <rect class="box" x="220" y="16" width="200" height="84" rx="42"/>
+            <text x="320" y="54" text-anchor="middle" class="t">GitHub</text>
+            <text x="320" y="82" text-anchor="middle" class="m">remote: origin</text>
+
+            <rect class="box" x="24" y="176" width="200" height="74" rx="12"/>
+            <text x="124" y="208" text-anchor="middle">Tvoj počítač</text>
+            <text x="124" y="234" text-anchor="middle" class="s">lokálny repozitár</text>
+
+            <rect class="box" x="416" y="176" width="200" height="74" rx="12"/>
+            <text x="516" y="208" text-anchor="middle">Počítač kolegu</text>
+            <text x="516" y="234" text-anchor="middle" class="s">jeho vlastná kópia</text>
+
+            <line class="ln-acc" x1="140" y1="172" x2="230" y2="106"/>
+            <polygon class="head-acc" points="236,102 229.8,113.9 222.8,104.2"/>
+            <line class="ln" x1="258" y1="104" x2="168" y2="170"/>
+            <polygon class="head" points="162,174 175.2,171.8 168.2,162.1"/>
+            <text x="166" y="130" text-anchor="end" class="cmd">push</text>
+            <text x="214" y="152" class="cmd">pull</text>
+
+            <line class="ln-acc" x1="500" y1="172" x2="410" y2="106"/>
+            <polygon class="head-acc" points="404,102 417.2,104.2 410.2,113.9"/>
+            <line class="ln" x1="382" y1="104" x2="472" y2="170"/>
+            <polygon class="head" points="478,174 471.8,162.1 464.8,171.8"/>
+            <text x="474" y="130" class="cmd">push</text>
+            <text x="426" y="152" text-anchor="end" class="cmd">pull</text>
+          </svg>
+        </div>
+        <figcaption>Push posiela tvoje commity hore, pull sťahuje commity ostatných dole.</figcaption>
+      </figure>
+
+      <p>Dôležité: commit sa deje len u teba. Na GitHub sa dostane až po <strong>push</strong>. Novinky od kolegov získaš cez <strong>pull</strong>.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Tu sa veľa ľudí zamotá. Commitol som, tak prečo to kolega nevidí? Lebo commit je zatiaľ len na tvojom disku. Kým nespravíš push, GitHub o ňom nevie.</p>
+      </div>
+
+      <h3 id="zaciatok">Dva spôsoby, ako začať s GitHubom</h3>
+      <p>Buď máš projekt u seba a chceš ho dostať na GitHub, alebo už na GitHube je a chceš si ho stiahnuť k sebe.</p>
+
+      <h4 class="sub-h">A. Projekt mám u seba, chcem ho nahrať na GitHub</h4>
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>V <span class="ui">Source Control</span> klikni na <span class="ui">Publish Branch</span> a vyber GitHub. Ak priečinok ešte nie je repozitár, tlačidlo sa volá <span class="ui">Publish to GitHub</span>. Pri prvom použití ťa VS Code prihlási do GitHubu cez prehliadač.</span></li>
+            <li><span>Vyber, či má byť repozitár verejný (public) alebo súkromný (private).</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code><span class="c"># najprv vytvor prázdny repozitár na github.com</span>
+git remote add origin https://github.com/jan/web.git
+git push -u origin main</code></pre>
+          <p class="pane-note"><code>-u origin main</code> nastaví prepojenie raz. Potom už stačí písať len <code>git push</code>.</p>
+        </div>
+      </div>
+
+      <h4 class="sub-h">B. Projekt už je na GitHube, chcem si ho stiahnuť</h4>
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Otvor paletu príkazov cez <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> (na Macu <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd>) a vyber <span class="ui">Git: Clone</span>.</span></li>
+            <li><span>Vlož adresu repozitára z GitHubu a vyber priečinok, kam sa má stiahnuť.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>git clone https://github.com/jan/web.git
+cd web</code></pre>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Clone spravíš raz na začiatku, keď sa pridávaš k existujúcemu projektu. Publish alebo <code>remote add</code>, keď si projekt založil sám a chceš ho dať na GitHub. Viac na to nepotrebuješ.</p>
+      </div>
+
+      <h3 id="push-pull">Push posiela, pull sťahuje</h3>
+      <p><strong>Push</strong> pošle tvoje commity na GitHub. <strong>Pull</strong> stiahne commity, ktoré tam pribudli od ostatných, a zapracuje ich do tvojej vetvy. <strong>Fetch</strong> len zistí, čo je nové, a nemení tvoje súbory ani vetvy. Pull je vlastne fetch a hneď za ním merge.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <div class="statusbar" role="img" aria-label="Stavový riadok VS Code: vetva main, 1 commit na stiahnutie a 2 na odoslanie.">
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.6"/><circle cx="4.5" cy="12.5" r="1.6"/><circle cx="11.5" cy="5.5" r="1.6"/><path d="M4.5 5.1v5.8M11.5 7.1c0 2.6-3.6 2-6.6 4.2"/></svg>main</span>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 0 1-8.6 3.5M3 8a5 5 0 0 1 8.6-3.5M11.6 1.8v2.7H8.9M4.4 14.2v-2.7h2.7"/></svg><span class="down">1↓</span><span class="up">2↑</span></span>
+          </div>
+        </div>
+        <figcaption>Stavový riadok VS Code: 1↓ čaká na stiahnutie, 2↑ na odoslanie.</figcaption>
+      </figure>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>Klikni na <span class="ui">Sync Changes</span>. Najprv stiahne novinky z GitHubu, potom pošle tvoje commity.</span></li>
+            <li><span>Šípky pri tlačidle a v stavovom riadku ukazujú, koľko commitov čaká na stiahnutie a koľko na odoslanie.</span></li>
+            <li><span>Novú vetvu, ktorá na GitHube ešte nie je, pošleš cez <span class="ui">Publish Branch</span>.</span></li>
+          </ol>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code><span class="c"># stiahne a zapracuje (fetch + merge)</span>
+git pull
+<span class="c"># pošle tvoje commity na GitHub</span>
+git push
+<span class="c"># len zistí, čo je nové, tvoje súbory nemení</span>
+git fetch</code></pre>
+        </div>
+      </div>
+
+      <p class="note"><b>Zlaté pravidlo:</b> pred prácou pull, po práci push.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Push zlyhá, ak na GitHube medzitým pribudlo niečo, čo ty nemáš. Riešenie je jednoduché: najprv pull, potom push. Preto to zlaté pravidlo. A <code>git push --force</code> na zdieľanej vetve nepoužívaj, prepíše históriu aj ostatným.</p>
+      </div>
+
+      <h3 id="pull-request">Pull request je žiadosť o zlúčenie</h3>
+      <p><strong>Pull request</strong>, skrátene PR, nie je príkaz Gitu, je to funkcia GitHubu. Hovorí: tu je moja vetva, pozrite sa na ňu, a ak je v poriadku, zlúčte ju do mainu.</p>
+
+      <ol class="flow" aria-label="Postup pull requestu">
+        <li><b>Vetva</b><span>commity na feature/kontakt</span></li>
+        <li><b>Push</b><span>vetva je už aj na GitHube</span></li>
+        <li><b>Otvor PR</b><span>názov, popis, reviewer</span></li>
+        <li><b>Review</b><span>kolega komentuje a schváli</span></li>
+        <li><b>Merge</b><span>zmeny sa dostanú do mainu</span></li>
+      </ol>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <div class="pr-mock" role="img" aria-label="Ukážka pull requestu číslo 42 na GitHube s komentárom a schválením.">
+            <div class="pr-head">
+              <p class="pr-title">Pridaj kontaktný formulár <span class="pr-num">#42</span></p>
+              <span class="pr-badge">Open</span>
+            </div>
+            <p class="pr-meta"><b>jan</b> chce zlúčiť 3 commity z <code>feature/kontakt</code> do <code>main</code></p>
+            <p class="pr-comment"><b>peter</b> Pridaj ešte kontrolu prázdneho mena.</p>
+            <div class="pr-foot">
+              <span class="pr-ok"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M5 8.2l2 2 4-4.2"/></svg>peter schválil zmeny</span>
+              <span class="pr-merge">Merge pull request</span>
+            </div>
+          </div>
+        </div>
+        <figcaption>Kolegovia vidia rozdiely, môžu komentovať jednotlivé riadky a schváliť zmeny. Až potom sa merguje.</figcaption>
+      </figure>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Pull request je najlepšie miesto na učenie. Keď ti niekto okomentuje kód, naučíš sa viac ako z hocijakého tutoriálu. A aj keď robíš sám, PR ti dá šancu pozrieť si celý rozdiel ešte raz, skôr ako ho pustíš do mainu.</p>
+      </div>
+
+      <h3 id="ako-pr">Ako otvoriť pull request</h3>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>Na GitHube</p></div>
+          <ol class="steps">
+            <li><span>Po push sa na stránke repozitára objaví žltý pruh s tlačidlom <span class="ui">Compare &amp; pull request</span>.</span></li>
+            <li><span>Napíš názov a popis, vpravo vyber <span class="ui">Reviewers</span>.</span></li>
+            <li><span>Klikni na <span class="ui">Create pull request</span>. Po schválení ho zlúčiš tlačidlom <span class="ui">Merge pull request</span>.</span></li>
+          </ol>
+          <p class="pane-note">Kto rád ostáva v editore, zvládne to isté vo VS Code s rozšírením GitHub Pull Requests.</p>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál (GitHub CLI)</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>gh pr create --base main --title "Kontaktný formulár" --body "Pridáva formulár a validáciu"
+gh pr list
+gh pr merge 42 --merge
+<span class="c"># po merge si stiahni nový main</span>
+git switch main
+git pull</code></pre>
+          <p class="pane-note"><code>gh</code> je oficiálny nástroj GitHubu pre terminál. Inštaluje sa zvlášť a prihlásiš sa cez <code>gh auth login</code>.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Nástroj <code>gh</code> si zapamätaj. O chvíľu uvidíš, že presne cez neho otvárajú pull requesty aj AI agenti.</p>
+      </div>
+    </section>
+
+    <!-- ======================= 04 STASH A ZÁCHRANA ======================= -->
+    <section class="chapter" id="stash" data-chapter="04" data-title="Stash a záchrana">
+      <p class="chapter-num">04 / 06</p>
+      <h2>Stash a záchranné brzdy</h2>
+      <p class="part-lead">Odloženie rozrobenej práce a vrátenie zmien, keď sa niečo pokazí.</p>
+
+      <h3 id="stash-co">Odlož rozrobenú prácu do šuplíka</h3>
+      <p>Robíš na formulári a zrazu príde správa: „Na webe je chyba, oprav ju hneď!“ Polovičnú prácu commitnúť nechceš. Zahodiť ju tiež nie. Na toto je <strong>stash</strong>.</p>
+
+      <figure class="figure">
+        <div class="figure-frame">
+          <svg class="dg" viewBox="0 0 640 296" role="img" aria-label="Tri kroky: rozrobené zmeny v priečinku, git stash ich presunie do šuplíka a priečinok je čistý, git stash pop ich vráti späť.">
+            <text x="108" y="30" text-anchor="middle">rozrobené zmeny</text>
+            <rect class="box" x="16" y="48" width="184" height="96" rx="12"/>
+            <text x="30" y="74" class="s">priečinok</text>
+            <rect class="bar" x="30" y="88" width="120" height="8" rx="4"/>
+            <rect class="bar" x="30" y="104" width="86" height="8" rx="4"/>
+            <rect class="bar" x="30" y="120" width="140" height="8" rx="4"/>
+            <rect class="box" x="16" y="180" width="184" height="80" rx="12"/>
+            <text x="30" y="206" class="s">šuplík (stash)</text>
+
+            <line class="ln" x1="204" y1="96" x2="216" y2="96"/>
+            <polygon class="head" points="224,96 214,90 214,102"/>
+
+            <text x="320" y="30" text-anchor="middle" class="cmd">git stash</text>
+            <rect class="box" x="228" y="48" width="184" height="96" rx="12"/>
+            <text x="242" y="74" class="s">priečinok</text>
+            <text x="320" y="116" text-anchor="middle">čisto</text>
+            <line class="ln-acc" x1="320" y1="150" x2="320" y2="168"/>
+            <polygon class="head-acc" points="320,176 314,166 326,166"/>
+            <rect class="box" x="228" y="180" width="184" height="80" rx="12"/>
+            <text x="242" y="206" class="s">šuplík (stash)</text>
+            <rect class="bar" x="242" y="218" width="120" height="8" rx="4"/>
+            <rect class="bar" x="242" y="232" width="86" height="8" rx="4"/>
+            <rect class="bar" x="242" y="246" width="140" height="8" rx="4"/>
+
+            <line class="ln" x1="416" y1="96" x2="428" y2="96"/>
+            <polygon class="head" points="436,96 426,90 426,102"/>
+
+            <text x="532" y="30" text-anchor="middle" class="cmd">git stash pop</text>
+            <rect class="box" x="440" y="48" width="184" height="96" rx="12"/>
+            <text x="454" y="74" class="s">priečinok</text>
+            <rect class="bar" x="454" y="88" width="120" height="8" rx="4"/>
+            <rect class="bar" x="454" y="104" width="86" height="8" rx="4"/>
+            <rect class="bar" x="454" y="120" width="140" height="8" rx="4"/>
+            <line class="ln-acc" x1="532" y1="176" x2="532" y2="158"/>
+            <polygon class="head-acc" points="532,150 526,160 538,160"/>
+            <rect class="box" x="440" y="180" width="184" height="80" rx="12"/>
+            <text x="454" y="206" class="s">šuplík (stash)</text>
+
+            <text x="320" y="288" text-anchor="middle" class="s">medzi krokom 2 a 3 prepneš na main a opravíš chybu</text>
+          </svg>
+        </div>
+        <figcaption>Stash je šuplík. Zmeny doňho odložíš, uprataný stôl použiješ na niečo iné a potom ich vytiahneš späť.</figcaption>
+      </figure>
+
+      <ol class="flow" aria-label="Postup so stashom">
+        <li><b>Odlož</b><code>git stash</code><span>Rozrobené zmeny idú do šuplíka.</span></li>
+        <li><b>Oprav chybu</b><code>git switch main</code><span>Oprava, commit, push.</span></li>
+        <li><b>Vráť sa</b><code>git switch -</code><span>Späť na svoju vetvu. Pomlčka znamená predošlú.</span></li>
+        <li><b>Vyber</b><code>git stash pop</code><span>Zmeny sú späť, pokračuješ ďalej.</span></li>
+      </ol>
+
+      <p>Do šuplíka môžeš odložiť aj viac vecí naraz a vyberať ich neskôr.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Stash je dočasná odkladacia schránka. Zoberie neuložené zmeny v súboroch, ktoré Git sleduje, odloží ich a priečinok vyčistí, takže sa môžeš pokojne prepnúť na inú vetvu. Len pozor, na šuplík sa rado zabúda.</p>
+      </div>
+
+      <h3 id="stash-ako">Ako na stash</h3>
+
+      <div class="practice">
+        <div class="pane pane--gui">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 5.5h13"/></svg>VS Code</p></div>
+          <ol class="steps">
+            <li><span>V <span class="ui">Source Control</span> klikni na <span class="ui">···</span> → <span class="ui">Stash</span> → <span class="ui">Stash</span>.</span></li>
+            <li><span>Prepni vetvu, oprav chybu a commitni.</span></li>
+            <li><span>Na svojej vetve daj <span class="ui">···</span> → <span class="ui">Stash</span> → <span class="ui">Pop Latest Stash</span>.</span></li>
+          </ol>
+          <p class="pane-note">Nové súbory, ktoré Git ešte nesleduje, pribalíš cez <span class="ui">Stash (Include Untracked)</span>.</p>
+        </div>
+        <div class="pane pane--cli">
+          <div class="pane-head"><p class="pane-label"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M4.5 6.5l2 1.5-2 1.5M8.5 10h3"/></svg>Terminál</p><button class="copy" type="button" data-copy>Kopírovať</button></div>
+<pre><code>git stash
+git switch main
+<span class="c"># … oprava, commit, push …</span>
+git switch -
+git stash pop
+<span class="c"># čo všetko je v šuplíku</span>
+git stash list</code></pre>
+          <p class="pane-note">Nové súbory pribalíš cez <code>git stash -u</code>.</p>
+        </div>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Pop vráti zmeny a zo šuplíka ich zmaže. Apply ich vráti a v šuplíku nechá. A ak máš niekedy pocit, že ti zmizla práca, skús najprv <code>git stash list</code>. Často tam celý čas čaká.</p>
+      </div>
+
+      <h3 id="zachrana">Keď sa niečo pokazí</h3>
+      <p>Git má na väčšinu chýb záchrannú brzdu. Tieto budeš potrebovať najčastejšie:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Situácia</th><th scope="col">VS Code</th><th scope="col">Príkaz</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Zahodiť neuložené zmeny v súbore</td><td>Discard Changes (↶)</td><td><code>git restore index.html</code></td></tr>
+            <tr><td>Vrátiť súbor zo stagingu</td><td>Unstage Changes (−)</td><td><code>git restore --staged index.html</code></td></tr>
+            <tr><td>Doplniť niečo do posledného commitu</td><td>Commit ▾ → Commit (Amend)</td><td><code>git commit --amend</code></td></tr>
+            <tr><td>Vrátiť commit, ktorý už je na GitHube</td><td>najjednoduchšie príkazom</td><td><code>git revert a3f9c21</code></td></tr>
+            <tr><td>Niektoré súbory nemajú ísť do Gitu</td><td>otvor súbor <code>.gitignore</code> a dopíš riadok <code>.env</code></td><td><code>echo ".env" &gt;&gt; .gitignore</code> (bash, zsh)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note"><b>Pozor:</b> restore a Discard zahodia zmeny natrvalo. Revert je bezpečný: pridá nový commit, ktorý zmenu vráti.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Amend používaj len na commit, ktorý ešte nie je na GitHube, inak prepisuješ históriu, ktorú už majú aj ostatní. Pre commity, ktoré už sú hore, je správna cesta revert. A do <code>.gitignore</code> patria heslá, súbor <code>.env</code> a priečinky ako <code>vendor</code> alebo <code>node_modules</code>.</p>
+      </div>
+    </section>
+
+    <!-- ======================= 05 ZHRNUTIE ======================= -->
+    <section class="chapter" id="zhrnutie" data-chapter="05" data-title="Zhrnutie">
+      <p class="chapter-num">05 / 06</p>
+      <h2>Zhrnutie</h2>
+      <p class="part-lead">Celý postup na jednom obrázku a ťahák.</p>
+
+      <h3 id="postup">Celý postup na jednom obrázku</h3>
+      <p>Takto vyzerá bežný deň s Gitom. Kroky 1 až 5 sa dejú u teba na počítači, kroky 6 až 8 na GitHube.</p>
+
+      <ol class="flow flow--8" aria-label="Každodenný postup">
+        <li><b>Stiahni novinky</b><code>git pull</code><span>aktuálny main</span></li>
+        <li><b>Nová vetva</b><code>git switch -c …</code><span>pre každú úlohu</span></li>
+        <li><b>Uprav kód</b><code>(editor)</code><span>píšeš a testuješ</span></li>
+        <li><b>Priprav zmeny</b><code>git add .</code><span>„+“ vo VS Code</span></li>
+        <li><b>Ulož snímku</b><code>git commit -m "…"</code><span>Commit vo VS Code</span></li>
+        <li class="is-remote"><b>Pošli na GitHub</b><code>git push</code><span>Sync alebo Publish Branch</span></li>
+        <li class="is-remote"><b>Pull request</b><code>gh pr create</code><span>popis a review</span></li>
+        <li class="is-remote"><b>Merge do mainu</b><code>gh pr merge</code><span>a vetvu zmaž</span></li>
+      </ol>
+      <p class="flow-legend"><span class="key key--local"></span>u teba na počítači <span class="key key--remote"></span>na GitHube. Potom znova od začiatku s ďalšou úlohou.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Toto je celý deň v ôsmich krokoch: pull, nová vetva, práca, add, commit, push, pull request s review a merge. Ak si z dnešku zapamätáš len päť príkazov, nech sú to status, add, commit, push a pull.</p>
+      </div>
+
+      <h3 id="tahak">Ťahák: VS Code a príkazy vedľa seba</h3>
+      <p>Ľavý stĺpec je, čo chceš spraviť, stredný je klik vo VS Code, pravý je príkaz.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Čo chcem</th><th scope="col">VS Code</th><th scope="col">Terminál</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Založiť repozitár</td><td>Initialize Repository</td><td><code>git init</code></td></tr>
+            <tr><td>Pozrieť zmeny</td><td>panel Source Control</td><td><code>git status</code></td></tr>
+            <tr><td>Pripraviť súbor</td><td>„+“ pri súbore</td><td><code>git add súbor</code></td></tr>
+            <tr><td>Uložiť snímku</td><td>Commit</td><td><code>git commit -m "…"</code></td></tr>
+            <tr><td>Pozrieť históriu</td><td>sekcia Graph</td><td><code>git log --oneline</code></td></tr>
+            <tr><td>Nová vetva</td><td>názov vetvy vľavo dole</td><td><code>git switch -c vetva</code></td></tr>
+            <tr><td>Zlúčiť vetvu</td><td>··· → Branch → Merge…</td><td><code>git merge vetva</code></td></tr>
+            <tr><td>Stiahnuť projekt z GitHubu</td><td>Git: Clone</td><td><code>git clone URL</code></td></tr>
+            <tr><td>Poslať a stiahnuť</td><td>Sync Changes</td><td><code>git push</code>, <code>git pull</code></td></tr>
+            <tr><td>Odložiť prácu</td><td>··· → Stash</td><td><code>git stash</code>, <code>git stash pop</code></td></tr>
+            <tr><td>Pull request</td><td>GitHub web alebo rozšírenie</td><td><code>gh pr create</code></td></tr>
+            <tr><td>Vrátiť commit z GitHubu</td><td>príkazom</td><td><code>git revert hash</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Túto tabuľku si pokojne ulož do záložiek. Všetko ostatné si vždy dohľadáš, alebo, ako uvidíš o chvíľu, necháš na agenta.</p>
+      </div>
+    </section>
+
+    <!-- ======================= 06 AI AGENTI ======================= -->
+    <section class="chapter" id="ai-agenti" data-chapter="06" data-title="AI agenti">
+      <p class="chapter-num">06 / 06</p>
+      <h2>To isté cez AI agentov</h2>
+      <p class="part-lead">To isté, ale cez konverzáciu.</p>
+
+      <h3 id="tri-sposoby">Tri spôsoby, ten istý Git</h3>
+
+      <ul class="trio">
+        <li>
+          <b>VS Code</b>
+          <span>Klikáš na tlačidlá.</span>
+          <code>„+“ → Commit → Sync</code>
+        </li>
+        <li>
+          <b>Terminál</b>
+          <span>Píšeš príkazy.</span>
+          <code>git commit -m "…"</code>
+        </li>
+        <li class="is-accent">
+          <b>AI agent</b>
+          <span>Opíšeš, čo chceš. Agent spustí príkazy, ty ich skontroluješ.</span>
+          <code>„Commitni to a otvor PR.“</code>
+        </li>
+      </ul>
+
+      <p>Agentom môže byť napríklad Claude Code, OpenAI Codex alebo GitHub Copilot v režime agenta. Pod kapotou robí presne to, čo sme sa práve naučili.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Agent je program s jazykovým modelom, ktorý vie sám spúšťať príkazy v termináli, čítať a upravovať súbory. Nepíšeš mu git príkazy, ale zámer. On ich vymyslí a spustí, ty sleduješ a schvaľuješ. Na konkrétnom nástroji až tak nezáleží, princíp je rovnaký.</p>
+      </div>
+
+      <h3 id="rozhovor-1">Rozhovor 1: nová vetva a commit</h3>
+      <div class="chat">
+        <div class="turn turn--you">
+          <p class="who">Ty</p>
+          <div class="msg"><p>Vytvor vetvu feature/kontakt a do contact.php pridaj kontrolu, či je e-mail zadaný správne. Potom to commitni.</p></div>
+        </div>
+        <div class="turn turn--agent">
+          <p class="who">Agent</p>
+          <div class="msg">
+            <p>Vytváram vetvu a upravujem formulár.</p>
+            <div class="runs">
+              <p class="run">git switch -c feature/kontakt</p>
+              <p class="run-c"># upravený contact.php (+14 −2)</p>
+              <p class="run">git add contact.php</p>
+              <p class="run">git commit -m "Pridaj validáciu e-mailu"</p>
+            </div>
+            <p>Hotovo: commit a3f9c21 je na feature/kontakt. Pushnúť na GitHub?</p>
+          </div>
+        </div>
+      </div>
+      <ul class="notice">
+        <li>Zadanie je konkrétne: vetva, súbor aj cieľ.</li>
+        <li>Agent spúšťa tie isté príkazy, ktoré už poznáš.</li>
+        <li>Pred push sa opýta. To je krok, ktorý ide von z tvojho počítača.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Pozri sa na príkazy v odpovedi agenta. Sú to presne tie z predchádzajúcich častí, len ich nepíšeš ty. Dobrý agent sa pred krokom, ktorý mení niečo mimo tvojho počítača, ako je push, opýta. Dá sa to nastaviť aj ako pravidlo.</p>
+      </div>
+
+      <h3 id="rozhovor-2">Rozhovor 2: push a pull request</h3>
+      <div class="chat">
+        <div class="turn turn--you">
+          <p class="who">Ty</p>
+          <div class="msg"><p>Áno, pushni to a otvor pull request do mainu. Do popisu napíš, čo sa zmenilo a ako to otestovať.</p></div>
+        </div>
+        <div class="turn turn--agent">
+          <p class="who">Agent</p>
+          <div class="msg">
+            <p>Posielam vetvu na GitHub a otváram pull request.</p>
+            <div class="runs">
+              <p class="run">git push -u origin feature/kontakt</p>
+              <p class="run">gh pr create --base main --title "Validácia e-mailu vo formulári" --body "Čo sa zmenilo: … Ako testovať: …"</p>
+            </div>
+            <p>Pull request #42 je otvorený a čaká na review.</p>
+          </div>
+        </div>
+      </div>
+      <ul class="notice">
+        <li>Stačí „Áno“. Agent vie, o čom sa bavíte.</li>
+        <li>Popis pull requestu napíše agent, ty ho len skontroluješ.</li>
+        <li>Review stále robí človek z tímu.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Agent používa ten istý nástroj <code>gh</code>, ktorý sme videli pri pull requestoch. Veľká pomoc je, že napíše zmysluplný popis. Ale schválenie a merge je stále rozhodnutie ľudí v tíme.</p>
+      </div>
+
+      <h3 id="rozhovor-3">Rozhovor 3: rýchla oprava a stash</h3>
+      <div class="chat">
+        <div class="turn turn--you">
+          <p class="who">Ty</p>
+          <div class="msg"><p>Na maine je chyba: v pätičke sa zobrazuje zlý rok. Oprav to, ale nestrať moju rozrobenú prácu.</p></div>
+        </div>
+        <div class="turn turn--agent">
+          <p class="who">Agent</p>
+          <div class="msg">
+            <p>Odložím tvoje zmeny a chybu opravím na novej vetve.</p>
+            <div class="runs">
+              <p class="run">git stash</p>
+              <p class="run">git switch main &amp;&amp; git pull</p>
+              <p class="run">git switch -c fix/rok-v-paticke</p>
+              <p class="run-c"># upravený footer.php (+1 −1)</p>
+              <p class="run">git commit -am "Oprav rok v pätičke"</p>
+              <p class="run">git switch feature/kontakt &amp;&amp; git stash pop</p>
+            </div>
+            <p>Oprava je na fix/rok-v-paticke a tvoja práca je späť. Otvoriť aj pull request?</p>
+          </div>
+        </div>
+      </div>
+      <ul class="notice">
+        <li>Ty si povedal čo. Agent vymyslel ako.</li>
+        <li>Oprava má vlastnú vetvu a nemieša sa s formulárom.</li>
+        <li>Rozrobená práca sa nestratila: stash a stash pop.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Toto je presne scenár zo stashu, ale celý ho za nás odohral agent. Všimni si, že som mu nepovedal slovo stash. Povedal som len cieľ, nestratiť rozrobenú prácu, a on si vybral správny nástroj.</p>
+      </div>
+
+      <h3 id="rozhovor-4">Rozhovor 4: konflikt pri merge</h3>
+      <div class="chat">
+        <div class="turn turn--you">
+          <p class="who">Ty</p>
+          <div class="msg"><p>Zmerguj main do mojej vetvy. Ak bude konflikt, najprv sa ma opýtaj.</p></div>
+        </div>
+        <div class="turn turn--agent">
+          <p class="who">Agent</p>
+          <div class="msg">
+            <div class="runs">
+              <p class="run">git merge main</p>
+              <p class="run-c run-warn">CONFLICT (content): Merge conflict in config.php</p>
+            </div>
+            <p>Konflikt v config.php: na maine sa zmenila adresa API, u teba timeout. Navrhujem ponechať obe zmeny. Súhlasíš?</p>
+          </div>
+        </div>
+        <div class="turn turn--you">
+          <p class="who">Ty</p>
+          <div class="msg"><p>Áno, ponechaj obe.</p></div>
+        </div>
+        <div class="turn turn--agent">
+          <p class="who">Agent</p>
+          <div class="msg"><p>Konflikt vyriešený, merge dokončený (git add a git commit).</p></div>
+        </div>
+      </div>
+      <ul class="notice">
+        <li>Pravidlo „najprv sa opýtaj“ dáš priamo do zadania.</li>
+        <li>Agent vysvetlí, čo sa zmenilo na ktorej strane.</li>
+        <li>Rozhodnutie ostáva na tebe.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Konflikt je presne miesto, kde nechceš, aby agent rozhodol potichu. Preto mu to povieš rovno v zadaní. Agent konflikt prečíta, vysvetlí ľudskou rečou a navrhne riešenie. Ty len potvrdíš.</p>
+      </div>
+
+      <h3 id="pravidla">Štyri pravidlá dobrej spolupráce</h3>
+      <ul>
+        <li><strong>Buď konkrétny.</strong> Povedz vetvu, súbor aj cieľ. Áno: „Pridaj validáciu e-mailu do contact.php.“ Nie: „Sprav to nejako lepšie.“</li>
+        <li><strong>Stanov hranice.</strong> „Nepushuj bez opýtania.“ „Nikdy nerob force push na main.“ Trvalé pravidlá zapíš do súboru <code>AGENTS.md</code> alebo <code>CLAUDE.md</code> v projekte.</li>
+        <li><strong>Kontroluj výsledok.</strong> Pred schválením si pozri <code>git diff</code> a pull request. Agent sa môže mýliť.</li>
+        <li><strong>Malé kroky.</strong> Jedna úloha, jedna vetva, jeden pull request. Menšie zmeny sa ľahšie kontrolujú.</li>
+      </ul>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p><code>AGENTS.md</code> alebo <code>CLAUDE.md</code> je obyčajný textový súbor v koreni projektu, ktorý si agent prečíta na začiatku každej práce. Patria tam pravidlá ako pomenovanie vetiev, zákaz force push alebo štýl commit správ. Napíšeš ich raz a nemusíš ich opakovať v každom zadaní.</p>
+      </div>
+
+      <h3 id="kedy-co">Kedy čo použiť</h3>
+      <p>Neexistuje jediný správny spôsob.</p>
+
+      <ul class="trio">
+        <li>
+          <b>VS Code</b>
+          <span>Keď chceš vidieť zmeny, riešiť konflikty a ešte sa učíš.</span>
+        </li>
+        <li>
+          <b>Terminál</b>
+          <span>Keď chceš rýchlosť a presnosť, na serveri alebo v skriptoch.</span>
+        </li>
+        <li class="is-accent">
+          <b>AI agent</b>
+          <span>Keď má úloha viac krokov: vetva, commity, push, pull request. Vždy s tvojou kontrolou.</span>
+        </li>
+      </ul>
+
+      <p class="analogy">Agent píše príkazy za teba. Pochopenie a kontrola ostávajú na tebe.</p>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Preto sme sa najprv učili základy. Bez nich nevieš skontrolovať, čo agent spravil, a nevieš ho opraviť, keď sa pomýli. Kto rozumie vetvám, commitom a pull requestom, ten agenta riadi. Kto nie, ten sa len pozerá.</p>
+      </div>
+
+      <h3 id="domaca-uloha">Domáca úloha: vyskúšaj si to</h3>
+      <p>Prejdi celý postup sám a potom ho zadaj AI agentovi. Porovnaj, čo spravil.</p>
+
+      <ol class="flow flow--6" aria-label="Domáca úloha">
+        <li><b>Repozitár</b><span>založ ho vo VS Code alebo cez git init</span></li>
+        <li><b>Tri commity</b><span>malé, s dobrými správami</span></li>
+        <li><b>Vetva</b><span>napríklad feature/kontakt</span></li>
+        <li><b>Merge</b><span>vetvu zlúč do mainu</span></li>
+        <li><b>Pull request</b><span>prvý vlastný na GitHube</span></li>
+        <li><b>S agentom</b><span>to isté ešte raz a porovnaj</span></li>
+      </ol>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Domáca úloha je jednoduchá: repozitár, pár commitov, vetva, merge a prvý pull request. Potom presne to isté zadaj agentovi a porovnaj výsledok. Keď niečo nebude jasné, napíš mi.</p>
+      </div>
+    </section>
+
+    <!-- ======================= KVÍZ ======================= -->
+    <section class="chapter" id="kviz" data-chapter="kviz" data-title="Otestuj sa">
+      <p class="chapter-num">Kvíz, 6 otázok</p>
+      <h2>Otestuj sa</h2>
+      <p>Pri každej otázke je správna práve jedna odpoveď. Po kliknutí hneď uvidíš, či si trafil, a prečo.</p>
+
+      <div class="quiz" data-quiz>
+        <div class="q" data-q>
+          <p class="q-num">Otázka 1 zo 6</p>
+          <h3>Čo spraví <code>git add contact.html</code>?</h3>
+          <div class="options">
+            <button class="opt" type="button">Pošle súbor na GitHub</button>
+            <button class="opt" type="button" data-correct>Pripraví zmeny v súbore do najbližšieho commitu</button>
+            <button class="opt" type="button">Rovno vytvorí nový commit so súborom</button>
+            <button class="opt" type="button">Pridá súbor do .gitignore</button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> <code>git add</code> presúva zmeny do stagingu, teda „do krabice“. Uloží ich až <code>git commit</code> a na GitHub ich pošle <code>git push</code>.</p></div>
+        </div>
+
+        <div class="q" data-q>
+          <p class="q-num">Otázka 2 zo 6</p>
+          <h3>Aký je rozdiel medzi Gitom a GitHubom?</h3>
+          <div class="options">
+            <button class="opt" type="button">Žiadny, sú to dva názvy pre to isté</button>
+            <button class="opt" type="button">GitHub je novšia verzia Gitu</button>
+            <button class="opt" type="button" data-correct>Git je program na tvojom počítači, GitHub je webová služba, kde repozitáre zdieľaš</button>
+            <button class="opt" type="button">Git funguje len vtedy, keď si pripojený na GitHub</button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> Git je fotoaparát, GitHub je online album. Git beží lokálne a internet nepotrebuje.</p></div>
+        </div>
+
+        <div class="q" data-q>
+          <p class="q-num">Otázka 3 zo 6</p>
+          <h3>Chceš zlúčiť <code>feature/login</code> do mainu. Kde musíš stáť, keď spúšťaš merge?</h3>
+          <div class="options">
+            <button class="opt" type="button">Na vetve <code>feature/login</code></button>
+            <button class="opt" type="button" data-correct>Na vetve <code>main</code></button>
+            <button class="opt" type="button">Je to jedno</button>
+            <button class="opt" type="button">Na GitHube</button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> Merguješ vždy do vetvy, na ktorej práve stojíš. Najprv <code>git switch main</code>, potom <code>git merge feature/login</code>.</p></div>
+        </div>
+
+        <div class="q" data-q>
+          <p class="q-num">Otázka 4 zo 6</p>
+          <h3>Pri merge vznikol konflikt. Čo to znamená?</h3>
+          <div class="options">
+            <button class="opt" type="button">Repozitár je poškodený a treba ho naklonovať znova</button>
+            <button class="opt" type="button">Niekto ti zmazal vetvu</button>
+            <button class="opt" type="button" data-correct>Obe vetvy zmenili ten istý riadok a Git nevie, ktorú verziu nechať</button>
+            <button class="opt" type="button">Nemáš právo pushovať do repozitára</button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> Konflikt je otázka, nie chyba. Vyberieš, čo ostane, zmažeš značky, súbor pridáš cez <code>git add</code> a commitneš.</p></div>
+        </div>
+
+        <div class="q" data-q>
+          <p class="q-num">Otázka 5 zo 6</p>
+          <h3>Robíš na formulári a musíš hneď opraviť chybu na maine. Rozrobenú prácu commitnúť nechceš. Čo spravíš?</h3>
+          <div class="options">
+            <button class="opt" type="button">Zmažem zmeny a neskôr ich napíšem odznova</button>
+            <button class="opt" type="button" data-correct><code>git stash</code>, prepnem na main, opravím chybu, vrátim sa a dám <code>git stash pop</code></button>
+            <button class="opt" type="button"><code>git push --force</code></button>
+            <button class="opt" type="button"><code>git commit --amend</code></button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> Stash odloží rozrobenú prácu do šuplíka, takže môžeš s čistým priečinkom prepnúť vetvu. Pop ti ju potom vráti.</p></div>
+        </div>
+
+        <div class="q" data-q>
+          <p class="q-num">Otázka 6 zo 6</p>
+          <h3>Chceš, aby AI agent pridal do projektu novú funkciu. Čo je najrozumnejšie spraviť predtým?</h3>
+          <div class="options">
+            <button class="opt" type="button">Povoliť mu push na main aj <code>--force</code>, nech nič nebrzdí</button>
+            <button class="opt" type="button">Vypnúť Git, aby agentovi nezavadzal</button>
+            <button class="opt" type="button">Nič, agent si s Gitom poradí sám</button>
+            <button class="opt" type="button" data-correct>Commitnúť aktuálny stav a nechať ho pracovať na novej vetve</button>
+          </div>
+          <div aria-live="polite"><p class="q-why" hidden><b></b> Posledný commit je bod, ku ktorému sa vrátiš, ak agent niečo pokazí. Vlastná vetva drží jeho prácu mimo mainu, kým ju neskontroluješ.</p></div>
+        </div>
+
+        <div class="quiz-score">
+          <p data-score aria-live="polite">Zodpovedané 0 zo 6.</p>
+          <button class="btn" type="button" data-reset hidden>Skúsiť znova</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= POZVÁNKA NA KURZ ======================= -->
+    <section class="invite" id="kurz" data-chapter="kurz" data-title="Kurz o AI agentoch">
+      <p class="chapter-num">Čo ďalej</p>
+      <h2>Chceš sa naučiť poriadne pracovať s AI agentmi?</h2>
+      <p>Pripravujem bezplatný kurz o tom, ako správne používať LLM a AI agentov. Prejdeme základy, ako fungujú, na čo sú dobré, kde narazia a ako sa reálne používajú v praxi.</p>
+
+      <dl class="facts">
+        <div>
+          <dt>Ako to vyzerá</dt>
+          <dd>Krátke textové lekcie na jednoduchých stránkach, presne ako táto. Na konci každej je pár cvičných otázok, kde je správna vždy len jedna odpoveď.</dd>
+        </div>
+        <div>
+          <dt>Stretnutia</dt>
+          <dd>Raz týždenne na Discorde, pol hodinu až hodinu. Prejdeme lekciu a necháme priestor na otázky. Termín sa dohodneme podľa toho, kto sa prihlási.</dd>
+        </div>
+        <div>
+          <dt>Cena</dt>
+          <dd>Zadarmo.</dd>
+        </div>
+      </dl>
+
+      <div class="say">
+        <span class="avatar" aria-hidden="true">TK</span>
+        <p>Spolužiaci z bakalárskeho stupňa mi po jedinom workshope povedali, že im práca s AI ide rýchlejšie a jednoduchšie a výsledky majú oveľa kvalitnejšie. Toto chcem ponúknuť aj tebe, len vo väčšom.</p>
+      </div>
+
+      <div class="invite-cta">
+        <!-- ODKAZ NA GOOGLE FORMULÁR: nahraď adresu v href -->
+        <a class="btn btn--accent btn--lg" href="https://forms.gle/DOPLN-ODKAZ-NA-FORMULAR" target="_blank" rel="noopener">Mám záujem, vyplniť formulár</a>
+        <p class="invite-note">Formulár je len prieskum záujmu, k ničomu ťa nezaväzuje.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner gutter">
+    <p>Tomáš Kanko, 2026</p>
+    <p>Webová verzia prezentácie Git a GitHub od základov</p>
+  </div>
+</footer>
+
+<div class="mbar">
+  <div class="msheet gutter" id="msheet" hidden></div>
+  <div class="gutter">
+    <button class="mbar-btn" type="button" id="mbar-btn" aria-expanded="false" aria-controls="msheet">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+      <span class="mbar-text">
+        <span class="mbar-kicker" id="mbar-kicker">Obsah</span>
+        <span class="mbar-title" id="mbar-title">Git a GitHub od základov</span>
+      </span>
+      <span class="mbar-count" id="mbar-count"></span>
+    </button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
